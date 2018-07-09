@@ -26,50 +26,64 @@
 #
 #	I/O bound, therefore the threading module is used
 
-import threading, Queue
+import threading
+import queue
+from queue import Queue
 from datetime import datetime, timedelta, timezone
 import time
 
-class DataManager(threading.Thread):
-	
-	#wraps a set containing data points for a time frame 
+#wraps a set containing data points for a time frame 
 	#each point is in format: {'price':<price>, 'time':<time>, 'percentage': <percent of time interval>}
-	class Ledger:
-		def __init__(self, time_length):
-			self._time_length = timedelta(seconds = time_length)
-			self._data_points = []
-			
-		def sync(self, data_point, present_time):
-			backend_time = present_time - self._time_length #time back of ledger exists at
-			
-			#add data point to ledger
-			self._data_points.append({
-				'price': data_point['price'],
-				'time': datetime.fromtimestamp(data_point['time'], timezone.utc),
-				'percentage': 0.00
-			}) 
-			
-			#calc percentage of time interval point encompasses
-			for point in self._data_points:
-				point['percentage'] = (present_time - point['time'])/self._time_length * 100
-			
-			#destroy points that are out of time range (greater than 100% of time interval)
-			self._data_points[:] = [point for point in self._data_points if point['percentage'] < 100]
+class Ledger:
+	def __init__(self, time_length):
+		self._time_length = timedelta(seconds = time_length)
+		self._data_points = []
 		
-		def getPrices(self):
-			prices = []
-			for point in self._data_points:
-				prices.append(point['price'])
-			return prices[1:]
-			
-		def getTimes(self):
-			times = []
-			for point in self._data_points:
-				prices.append(point['time'])
-			return prices[1:]
-			
+	def addPoint(self, data_point, present_time):
+		#add data point to ledger
+		self._data_points.append({
+			'price': data_point['price'],
+			'time': datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"),
+			'percentage': 0.00
+		}) 
+		
+	def sync(self, present_time):
+		backend_time = present_time - self._time_length #time back of ledger exists at
+		
+		#calc percentage of time interval point encompasses
+		for point in self._data_points:
+			if point['time'] < backend_time:
+					point['time'] = backend_time
+			point['percentage'] = (present_time - point['time'])/self._time_length * 100
+		
+		#align percentages
+		for index, point in enumerate(self._data_points):
+			if index != (len(self._data_points) - 1):
+				point['percentage'] = point['percentage'] - self._data_points[index + 1]['percentage']
+				
+				if point['percentage'] == 0.00:
+					self._data_points.pop(index)
+				
+	
+	def getPrices(self):
+		prices = []
+		for point in self._data_points:
+			prices.append(point['price'])
+		return prices[1:]
+		
+	def getTimes(self):
+		times = []
+		for point in self._data_points:
+			prices.append(point['time'])
+		return prices[1:]
+		
+	def __repr__(self):
+		return str(self._data_points)
+		
 		
 
+class DataManager(threading.Thread):
+			
 	def __init__(self, data_source, real_time):
 		super().__init__()
 		self._data_source = data_source
@@ -88,22 +102,29 @@ class DataManager(threading.Thread):
 				while True: #process all items in queue
 					time_now = datetime.utcnow()
 					try:
-						data_point = self.data_source.get(False) #blocking is false because we want calculation to happen every second regardless of when message comes in
-						for uid, ledger in self._ledger_table.iteritems(): #sync all existing ledgers
-							ledger.sync(data_point, time_now)
-					except Queue.Empty:
+						data_point = self._data_source.get(False) #blocking is false because we want calculation to happen every second regardless of when message comes in
+						for uid, ledger in self._ledger_table.items(): #add point
+							ledger.addPoint(data_point, time_now)
+					except queue.Empty:
 						break
+					except KeyError:
+						break
+
+				for uid, ledger in self._ledger_table.items(): #sync all existing ledgers
+					ledger.sync(time_now)
+				print(self._ledger_table)
 				
 				time.sleep(1)
 			
 			
 			#simulated time
-			else not self._real_time:
+			elif not self._real_time:
 				try:
-					data_point = self.data_source.get(True, 0.05) #process one item in queue at a time 
-					for uid, ledger in self._ledger_table.iteritems():
-						ledger.sync(data_point, datetime.fromtimestamp(data_point['time'], timezone.utc))
-				except Queue.Empty:
+					data_point = self._data_source.get(True, 0.05) #process one item in queue at a time 
+					for uid, ledger in self._ledger_table.items():
+						ledger.addPoint(data_point, datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
+						ledger.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
+				except queue.Empty:
 					continue
 	
 	
@@ -141,9 +162,3 @@ class DataManager(threading.Thread):
 	
 	
 	
-	
-	
-	
-
-
-
