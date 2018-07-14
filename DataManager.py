@@ -3,29 +3,31 @@
 #	DataManager acts as a intermediary between incoming data and api's that process that data
 #
 #	Data is managed on a time interval basis - data is stored in a ledger spanning a specified 
-#	delta time into the past in reference to the present. Data existing before the delta is 
+#	delta time into the past with respect to the present. Data existing before the delta is 
 #	discarded.
 #
-#	Multiple ledgers can be instantiated and pulled from by external APIs. Ledgers are stored
+#	Multiple ledgers can be instantiated and pulled from by external APIs. Frames are stored
 #	within a ledger table and accessed by a unique ID string
 #
 #	DataManager accepts a data source as long as it follows the following protocol:
 #		
-#		* A data source must be passed in - this must take the form of a queue
-#		* Data may enter at any rate - time is not accounted for based on rate information enters
+#		* A data source must provide a queue for the frame to access
 #		* Each message must contain the following information:
 #			message = {
 #				'time': <match timed in iso string format>,
-#				'price': <float representation of closing price>,
-#				'volume': <int representation of volume at time of match>
+#				'price': <float representation of closing price>
 #			};
 #
 #
-#	Rate is not accounted for in order to allow for both real time data to be processed
+#	Rate data enters is not accounted for in order to allow for both real time data to be processed
 #	as well as bulk data acquired previously for quick simulations
 #
 #	I/O bound, therefore the threading module is used
-
+#
+#	Bugs: Frame is not properly popping off out of date data points 
+#		when: Every now and then
+#		consequence: that data point has a 'percentage' value of 1.0 , causing percentages to add up to 2
+#					instead of 1. Throws off statistical calculations
 import threading
 import queue
 from queue import Queue
@@ -34,27 +36,37 @@ import time
 
 #wraps a set containing data points for a time frame 
 	#each point is in format: {'price':<price>, 'time':<time>, 'percentage': <percent of time interval>}
-class Ledger:
+class Frame:
 	def __init__(self, time_length):
 		self._time_length = timedelta(seconds = time_length)
 		self._data_points = []
+		self.sync_complete = threading.Event()
+		self.lock = threading.Lock()
 		
-	def addPoint(self, data_point, present_time):
+	def addPoint(self, data_point):
+		self.lock.acquire()
 		#add data point to ledger
-		self._data_points.append({
-			'price': data_point['price'],
-			'time': datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"),
-			'percentage': 0.00
-		}) 
+		try:
+			self._data_points.append({
+				'price': data_point['price'],
+				'time': datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"),
+				'percentage': 0.00
+			})
+			self.lock.release()
+		except KeyError:
+			self.lock.release()
+			return
 		
 	def sync(self, present_time):
+		self.lock.acquire()
 		backend_time = present_time - self._time_length #time back of ledger exists at
 		
 		#calc percentage of time interval point encompasses
 		for point in self._data_points:
 			if point['time'] < backend_time:
 					point['time'] = backend_time
-			point['percentage'] = (present_time - point['time'])/self._time_length * 100
+			point['percentage'] = (present_time - point['time'])/self._time_length
+
 		
 		#align percentages
 		for index, point in enumerate(self._data_points):
@@ -63,21 +75,26 @@ class Ledger:
 				
 				if point['percentage'] == 0.00:
 					self._data_points.pop(index)
-				
+		
+		self.lock.release()
+		self.sync_complete.set()
+		
+		
+	#----------------------------------Functions for external use -----------------------------------------#
+	#	Functions for use outside of this module
+
 	
-	def getPrices(self):
-		prices = []
-		for point in self._data_points:
-			prices.append(point['price'])
-		return prices[1:]
+	def get(self):
+		self.sync_complete.wait()
+		self.sync_complete.clear()
+		return self._data_points
 		
-	def getTimes(self):
-		times = []
-		for point in self._data_points:
-			prices.append(point['time'])
-		return prices[1:]
+	#fill frame with past data
+	def inject(self, data):
+		for field in data:
+			self.addPoint(field)
 		
-	def __repr__(self):
+	def __str__(self):
 		return str(self._data_points)
 		
 		
@@ -87,7 +104,7 @@ class DataManager(threading.Thread):
 	def __init__(self, data_source, real_time):
 		super().__init__()
 		self._data_source = data_source
-		self._ledger_table = {}
+		self._frame_record = []
 		self._real_time = real_time
 		
 		self.stop_request = threading.Event()
@@ -96,69 +113,50 @@ class DataManager(threading.Thread):
 	
 	#edit ledgers as messages come in
 	def run(self):
+		
 		while not self.stop_request.isSet():
+			if not self._frame_record:
+				print('DataManager must have registered frames in order to track data')
+				return
+					
 			#real time
 			if self._real_time:
 				while True: #process all items in queue
 					time_now = datetime.utcnow()
 					try:
 						data_point = self._data_source.get(False) #blocking is false because we want calculation to happen every second regardless of when message comes in
-						for uid, ledger in self._ledger_table.items(): #add point
-							ledger.addPoint(data_point, time_now)
+						for frame in self._frame_record: #add point
+							frame.addPoint(data_point)
 					except queue.Empty:
 						break
-					except KeyError:
-						break
 
-				for uid, ledger in self._ledger_table.items(): #sync all existing ledgers
-					ledger.sync(time_now)
-				print(self._ledger_table)
+				for frame in self._frame_record: #sync all existing ledgers
+					frame.sync(time_now)
+			
+				#print(self._frame_record)
+					
 				
-				time.sleep(1)
-			
-			
-			#simulated time
-			elif not self._real_time:
-				try:
-					data_point = self._data_source.get(True, 0.05) #process one item in queue at a time 
-					for uid, ledger in self._ledger_table.items():
-						ledger.addPoint(data_point, datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
-						ledger.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
-				except queue.Empty:
-					continue
+				
+				#simulated time
+				'''
+				elif not self._real_time:
+					try:
+						data_point = self._data_source.get(True, 0.05) #process one item in queue at a time 
+						for uid, frame in self.self._frame_record.items():
+							frame.addPoint(data_point)
+							frame.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
+					except queue.Empty:
+						continue
+				'''
+					
+			time.sleep(1)
 	
 	
-	def join(self, timeout=None):
+	def close(self, timeout=None):
 		self.stop_request.set()
 		super().join(timeout)
-	
-	
-	#---------------------------- API Calls ------------------------------------#
-	
-	#	Creates a new ledger object of length delta time in seconds
-	#	returns an identifier to that ledger for future access
-	#	does not return a ledger object - do not want external api's to 
-	#	directly access the ledger
-	
-	def newLedger(self, seconds, uid):
-		self._ledger_table[uid] = Ledger(seconds)
-	
-	#returns all prices in specified ledger as a list, most recent being in slot zero
-	def getPrices(self, uid):
-		return self.ledger_table[uid].getPrices()
-	
-	#returns all times in specified ledger as a list, most recent being in slot zero
-	def getTimes(self, uid):
-		return self.ledger_table[uid].getTimes()
-	
-	#returns most recent match price
-	def getLastPrice(self):
-		return self.ledger_table[uid].getPrices()[-1]
-	
-	#resturn time of last match
-	def getLastTime(self):
-		return self.ledger_table[uid].getTimes()[-1]
-	
-	
+
+	def registerFrame(self, frame):
+		self._frame_record.append(frame)
 	
 	
