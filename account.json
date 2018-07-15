@@ -1,9 +1,0 @@
-{
-	"sandbox": {
-		"ch_url": "wss://ws-feed-public.sandbox.pro.coinbase.com",
-		"auth_url": "https://api-public.sandbox.pro.coinbase.com",
-		"key": "0f6c2fe3b17f33249c61574319335653",
-		"secret": "B+nj9PmMIfp8T5qCAwpZ53eQhB+nNUlIwQKNAxaWdRROaEbdvnGXtBySOj/Y5XgOetb+5lYR74F/ukd8Cd7FRQ==",
-		"passphrase": "INeedJesus"
-	}
-}
