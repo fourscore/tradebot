@@ -1,0 +1,16 @@
+[
+	"real": {
+		"auth_url": "",
+		"ch_url": "",
+		"key": "",
+		"secret": "",
+		"passphrase":"",
+	},
+	"sandbox": {
+		"auth_url": "",
+		"ch_url": "",
+		"key": "",
+		"secret": "",
+		"passphrase":"",
+	}
+]
