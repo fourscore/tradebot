@@ -2,7 +2,7 @@
 # class and override the process() function
 
 from abc import ABCMeta, abstractmethod
-import DataManager
+from datamanager import Frame
 import threading
 
 class Auditor(threading.Thread):
@@ -12,7 +12,7 @@ class Auditor(threading.Thread):
 		super().__init__()
 		self.stop_request = threading.Event()
 		self.updated = threading.Event()
-		self.frame = DataManager.Frame(time_length)
+		self.frame = Frame(time_length)
 		self.data = []
 		
 		self.start()

@@ -16,9 +16,9 @@ class OrderBook:
 		self.open_orders = []
 		
 	def record(self, order_msg):
-		for order in self.open_orders:
-			#update order:
-		
+		#for order in self.open_orders:
+		#update order:
+		return
 
 class UserChannel(gdax.WebsocketClient):
 	def __init__(self, acc):
@@ -69,17 +69,20 @@ class Broker:
 		# post sell to exchange with given parameters
 		# if successful, record it in order book and return true
 		# else return false
+		return
 	
 	def buy(self):
 		# post buy to exchange with given parameters
 		# if successful, record it in order book and return true
 		# else return false
+		return
 		
 	def cancel_order(self):
 		#get size of order left
 		#cancel order
 		#if cancel successful, return size left
 		#else return zero
+		return
 		
 	
 		

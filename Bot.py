@@ -6,9 +6,9 @@
 #	Each bot can only trade on a single product - to trade on multiple, new bots must be created
 #	I will create a BotManager object to oversee the operation of many bots at the same time
 
-import DataStream
+from datastream import DataStream
 #from DataStream import DataStream
-from DataManager import DataManager
+from datamanager import DataManager
 import time
 import statistics
 import threading
@@ -36,7 +36,7 @@ class Bot(threading.Thread):
 		# 7) register the broker with the strategy
 
 		#create data stream and data manager
-		self.stream = DataStream.DataStream([product])
+		self.stream = DataStream([product])
 		self.data_manager = DataManager(self.stream.getStream(), True)
 		
 		#strategy
