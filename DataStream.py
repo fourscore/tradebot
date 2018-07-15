@@ -59,7 +59,7 @@ class DataStream(gdax.WebsocketClient):
 		super().__init__(self)
 		self.products = products
 		self.channels = ['ticker']
-		self.url = "wss://ws-feed.gdax.com/" 
+		self.url = 'wss://ws-feed.pro.coinbase.com'
 		
 		self._data_queue = Queue()
 	

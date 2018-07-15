@@ -1,51 +1,62 @@
-# strategy module handles the income of Auditor statistics and exchange 
-# trade messages and implements a strategy for buying and selling
+# strategy.py	07/4/2018	Paul Leimer
 #
-# strategy does not execute buying and selling options itself but instead 
-# gives the go to the broker which handles interfacing with the GDAX authenticated
-# client
+# Abstract:
 #
-# All strategies must inherit from main strategy class and overide the 
-# setup(), buyOn and sellOn methods
+# The Strategy class is one of two classes in this entire program that the front-end user will interact with -  
+# here, a trading strategy is defined
 #
-# Needs to be able to:
-#	- Create frames, register auditors on those frames, and listen to the auditors
-#	- Two threads: one to listen for auditor updates and one to listen for exchange responses
+# Each strategy must inherit from this class and override the setup() and strategy() functions
 #
-# Implementing strategy:
-#	- set it up, creating registering broker, creating frames and auditors
+# setup() - the user must define all of their Auditor - type objects here and register them bytearray
+#			calling the registerAuditor() function on them
 #
-# To use:
-# 	* Instantiate strategy
-#	* pass to broker
-
-# strategies should utilize the broker thread
+# strateg() - within this function the conditions for trade must be defined
+			
+			
 from abc import ABCMeta, abstractmethod
 import auditor
 import threading
 
+
 #import broker
 
 
-class Strategy():
+class Strategy(threading.Thread):
 	__metaclass__ = ABCMeta
 
 	def __init__(self):
+		super().__init__()
 		#these vaules must be created in set up
 		self.auditors = []
 		self._broker = None
 		
+		self.stop_request = threading.Event()
+		
 		self.setup()
 		
 	def run(self):
-		return
+		try:
+			while not self.stop_request.isSet():
+				for auditor in self.auditors:
+					auditor.waitOnUpdate()
+				self.strategy()
+		except:
+			return
+			
+			
+	def close(self, timeout=None):
+		self.stop_request.set()
+		
+		for auditor in self.auditors:	
+			auditor.close()
+			
+		super().join(timeout)
 		
 	def registerAuditor(self, auditor):
 		self.auditors.append(auditor)
 		
 	def getAuditors(self):
 		return self.auditors
-	
 		
 	@abstractmethod	
 	def setup(self): #create auditors and set conditions for buys and sells

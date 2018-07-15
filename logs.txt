@@ -8372,3 +8372,349 @@ mean: 745.3776818820002{'price': '433.64000000', 'time': datetime.datetime(2018,
 {'price': '433.75000000', 'time': datetime.datetime(2018, 7, 14, 23, 6, 0, 817000), 'percentage': 0.14044444444444443}
 {'price': '433.59000000', 'time': datetime.datetime(2018, 7, 14, 23, 6, 7, 137000), 'percentage': 0.23313333333333333}
 {'price': '433.59000000', 'time': datetime.datetime(2018, 7, 14, 23, 6, 17, 628000), 'percentage': 0.08962868888888889}
+
+
+Error: statistical calculation error
+mean: 569.742397576{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 20, 56, 675834), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 3, 537000), 'percentage': 0.3138834}
+
+
+Error: statistical calculation error
+mean: 801.3469679182222{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 20, 56, 695988), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 3, 537000), 'percentage': 0.8479775111111111}
+
+
+Error: statistical calculation error
+mean: 693.089214912{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 51, 706424), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 55, 723000), 'percentage': 0.5983424}
+
+
+Error: statistical calculation error
+mean: 638.850506748{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 16, 721307), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 21, 989000), 'percentage': 0.1254}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.3478307}
+
+
+Error: statistical calculation error
+mean: 844.779087944{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 22, 724346), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.9481346}
+
+
+Error: statistical calculation error
+mean: 828.7536111555556{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 51, 726550), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 55, 723000), 'percentage': 0.45417777777777785}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 16, 161000), 'percentage': 0.12951111111111108}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 21, 989000), 'percentage': 0.027866666666666706}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.2996344444444444}
+
+
+Error: statistical calculation error
+mean: 670.3953811891112{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 21, 55, 730877), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 16, 161000), 'percentage': 0.12951111111111113}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 21, 989000), 'percentage': 0.027866666666666706}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.3182}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 562000), 'percentage': 0.010933333333333337}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.05948615555555556}
+
+
+Error: statistical calculation error
+mean: 853.45281368{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 735360), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.968136}
+
+
+Error: statistical calculation error
+mean: 816.7404928622221{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 16, 744670), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 21, 989000), 'percentage': 0.027866666666666706}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.31820000000000004}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 562000), 'percentage': 0.01093333333333335}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.2533777777777777}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 456000), 'percentage': 0.2730815555555556}
+
+
+Error: statistical calculation error
+mean: 862.5088718159999{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 22, 749223), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 243000), 'percentage': 0.31820000000000004}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 562000), 'percentage': 0.01093333333333335}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.25337777777777776}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 456000), 'percentage': 0.24880000000000002}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 652000), 'percentage': 0.03397777777777776}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.1237382888888889}
+
+
+Error: statistical calculation error
+mean: 734.1808010693334{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 23, 750233), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 562000), 'percentage': 0.01093333333333335}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.2533777777777778}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 456000), 'percentage': 0.24879999999999997}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 652000), 'percentage': 0.0339777777777778}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.14598295555555554}
+
+
+Error: statistical calculation error
+mean: 805.306226392{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 752078), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.5023}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.3548078}
+
+
+Error: statistical calculation error
+mean: 674.280365568{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 753312), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.5549312}
+
+
+Error: statistical calculation error
+mean: 864.4404655662223{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 37, 759632), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 54000), 'percentage': 0.2533777777777778}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 456000), 'percentage': 0.24879999999999997}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 652000), 'percentage': 0.03397777777777777}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.11162222222222223}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.3456807111111111}
+
+
+Error: statistical calculation error
+mean: 764.2049766826667{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 38, 760698), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 456000), 'percentage': 0.24880000000000002}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 652000), 'percentage': 0.03397777777777777}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.11162222222222223}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.3679266222222222}
+
+
+Error: statistical calculation error
+mean: 747.050338342{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 766291), 'percentage': 1.0}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.45709999999999995}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.2652291}
+
+
+Error: statistical calculation error
+mean: 678.9753694190001{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 768147), 'percentage': 1.0}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.29710000000000003}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.2683147}
+
+
+Error: statistical calculation error
+mean: 762.4248892042222{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 22, 49, 768147), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 652000), 'percentage': 0.03397777777777777}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.11162222222222229}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.32182222222222223}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 686000), 'percentage': 0.06348888888888887}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.10157777777777777}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.06602222222222223}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.05962548888888889}
+
+
+Error: statistical calculation error
+mean: 767.0421687239999{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 771612), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.5121}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2565612}
+
+
+Error: statistical calculation error
+mean: 675.286152303{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 773839), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.5567839}
+
+
+Error: statistical calculation error
+mean: 853.7874165997777{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 0, 775787), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 181000), 'percentage': 0.11162222222222218}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.32182222222222223}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 686000), 'percentage': 0.06348888888888893}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.10157777777777777}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.06602222222222226}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11379999999999998}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.1904397111111111}
+
+
+Error: statistical calculation error
+mean: 824.6795487153333{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 2, 776547), 'percentage': 1.0}
+{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 204000), 'percentage': 0.32182222222222223}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 686000), 'percentage': 0.06348888888888882}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.10157777777777782}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.0660222222222222}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11379999999999998}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.23490104444444446}
+
+
+Error: statistical calculation error
+mean: 733.3407439977777{'price': '433.64000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 7, 779730), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 686000), 'percentage': 0.06348888888888882}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.10157777777777777}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.06602222222222226}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11380000000000001}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2663333333333333}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.07974955555555556}
+
+
+Error: statistical calculation error
+mean: 840.9729200222223{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 21, 790290), 'percentage': 1.0}
+{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 543000), 'percentage': 0.10157777777777777}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.0660222222222222}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11380000000000001}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2663333333333333}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.2693111111111111}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.12178422222222222}
+
+
+Error: statistical calculation error
+mean: 825.8487545844444{'price': '433.76000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 24, 792317), 'percentage': 1.0}
+{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 114000), 'percentage': 0.0660222222222222}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11380000000000001}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2663333333333333}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.26931111111111106}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.18849593333333334}
+
+
+Error: statistical calculation error
+mean: 845.3155037386667{'price': '433.62000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 29, 794948), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 85000), 'percentage': 0.11380000000000001}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2663333333333333}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.2693111111111111}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.24093333333333333}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 152000), 'percentage': 0.058732177777777776}
+
+
+Error: statistical calculation error
+mean: 825.0581344631111{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 32, 798093), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 206000), 'percentage': 0.2663333333333333}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.2693111111111111}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.24093333333333336}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 152000), 'percentage': 0.12546873333333333}
+
+
+Error: statistical calculation error
+mean: 736.8121523919999{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 801934), 'percentage': 1.0}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 15, 820000), 'percentage': 0.6981934}
+
+
+Error: statistical calculation error
+mean: 757.7766474204443{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 37, 801934), 'percentage': 1.0}
+{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 191000), 'percentage': 0.26931111111111106}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.24093333333333336}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 152000), 'percentage': 0.08151111111111109}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 15, 820000), 'percentage': 0.1551540888888889}
+
+
+Error: statistical calculation error
+mean: 588.021211835{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 16, 803705), 'percentage': 1.0}
+{'price': '433.87000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 23, 251000), 'percentage': 0.3552705}
+
+
+Error: statistical calculation error
+mean: 756.614094018{'price': '433.63000000', 'time': datetime.datetime(2018, 7, 14, 23, 23, 49, 808163), 'percentage': 1.0}
+{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 310000), 'percentage': 0.24093333333333333}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 152000), 'percentage': 0.08151111111111109}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 15, 820000), 'percentage': 0.16513333333333335}
+{'price': '433.87000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 23, 251000), 'percentage': 0.25682584444444445}
+
+
+Error: statistical calculation error
+mean: 768.1026569982223{'price': '433.90000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 1, 814259), 'percentage': 1.0}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 12, 152000), 'percentage': 0.08151111111111109}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 15, 820000), 'percentage': 0.16513333333333335}
+{'price': '433.87000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 23, 251000), 'percentage': 0.3141555555555556}
+{'price': '433.88000000', 'time': datetime.datetime(2018, 7, 14, 23, 24, 37, 388000), 'percentage': 0.20947242222222223}
+
+
+Error: statistical calculation error
+mean: 658.7164868340001{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 8, 215699), 'percentage': 1.0}
+{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 13, 26000), 'percentage': 0.5189699}
+
+
+Error: statistical calculation error
+mean: 571.05078212{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 25, 224876), 'percentage': 0.6832123999999999}
+{'price': '433.67000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 32, 57000), 'percentage': 0.3167876}
+{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 32, 57000), 'percentage': 0.3167876}
+
+
+Error: statistical calculation error
+mean: 821.1686702406666{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 8, 235507), 'percentage': 1.0}
+{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 13, 26000), 'percentage': 0.4229111111111111}
+{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 32, 57000), 'percentage': 0.4706334888888889}
+
+
+Error: statistical calculation error
+mean: 685.986653446{'price': '433.66000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 13, 238603), 'percentage': 1.0}
+{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 32, 57000), 'percentage': 0.5818134}
+
+
+Error: statistical calculation error
+mean: 549.698056078{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 50, 241414), 'percentage': 0.7325586}
+{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 57, 567000), 'percentage': 0.2674414}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 57, 567000), 'percentage': 0.2674414}
+
+
+Error: statistical calculation error
+mean: 623.444739678{'price': '433.69000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 32, 252463), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 57, 567000), 'percentage': 0.43745473333333335}
+
+
+Error: statistical calculation error
+mean: 542.8217767499999{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 14, 255162), 'percentage': 0.7485838}
+{'price': '433.75000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 21, 741000), 'percentage': 0.2514162}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 21, 741000), 'percentage': 0.2514162}
+
+
+Error: statistical calculation error
+mean: 755.130022695{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 22, 261535), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 853000), 'percentage': 0.0019000000000000128}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 872000), 'percentage': 0.1867000000000001}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.5522535}
+
+
+Error: statistical calculation error
+mean: 867.54{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 25, 263565), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 25, 263565), 'percentage': 0.14754350000000005}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.8524565}
+
+
+Error: statistical calculation error
+mean: 846.943342467{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 264171), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.9525171}
+
+
+Error: statistical calculation error
+mean: 641.279090368{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 30, 58, 268328), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 21, 741000), 'percentage': 0.06915555555555558}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 853000), 'percentage': 0.00042222222222221273}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 872000), 'percentage': 0.04148888888888891}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.3673184}
+
+
+Error: statistical calculation error
+mean: 842.7662482193334{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 22, 282931), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 853000), 'percentage': 0.00042222222222221273}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 24, 872000), 'percentage': 0.04148888888888891}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.9009762444444445}
+
+
+Error: statistical calculation error
+mean: 867.54{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 25, 285048), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 25, 285048), 'percentage': 0.03231004444444441}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.9676899555555556}
+
+
+Error: statistical calculation error
+mean: 863.1689189886666{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 285537), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 31, 26, 739000), 'percentage': 0.9899230444444445}
+
+
+Error: statistical calculation error
+mean: 767.724447891{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 26, 301883), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 28, 603000), 'percentage': 0.45339999999999997}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 33, 137000), 'percentage': 0.3164883}
+
+
+Error: statistical calculation error
+mean: 701.293266423{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 29, 304399), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 33, 137000), 'percentage': 0.6167399}
+
+
+Error: statistical calculation error
+mean: 845.5788514566666{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 26, 324715), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 28, 603000), 'percentage': 0.1007555555555556}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 33, 137000), 'percentage': 0.25722222222222213}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 44, 712000), 'percentage': 0.5913936666666667}
+
+
+Error: statistical calculation error
+mean: 830.817581242{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 29, 327357), 'percentage': 1.0}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 33, 137000), 'percentage': 0.25722222222222224}
+{'price': '433.77000000', 'time': datetime.datetime(2018, 7, 14, 23, 32, 44, 712000), 'percentage': 0.6581190444444445}

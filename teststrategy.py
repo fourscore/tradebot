@@ -7,12 +7,16 @@ class TestStrat(strategy.Strategy):
 		
 		
 	def setup(self):
-		self.stats_long = statistics.Statistics(45)
+		self.stats_long = statistics.Statistics(10*60)
 		self.registerAuditor(self.stats_long)
 		
-		self.stats_short = statistics.Statistics(10)
+		self.stats_short = statistics.Statistics(1*60)
 		self.registerAuditor(self.stats_short)
 		
 	def strategy(self):
-		if self.stats_long.mean == self.stats_long.short:
+		print(self.stats_long.mean)
+		print(self.stats_short.mean)
+		
+		if abs(self.stats_long.mean - self.stats_short.mean) < 10.00:
 			print('buy')
+		
