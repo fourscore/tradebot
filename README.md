@@ -40,28 +40,27 @@ the framework should provide a simulation environment to test strategies in. </p
 
 <p><i>Data Stream</i>: inteface for obtaining live ticker data from the GDAX api. When new data arrives, DataStream dumps it
 into a queue from which tha DataManager gets the data. This module can be simulated to pump data through the rest of the structure
-for testing purposes. </p>
+for testing purposes. (completed) </p>
 
 <p><i>Data Manager</i>: intermediary between incoming data and api's that process that data. The DataManager class analyzes data
-from the DataStream queue and writes the data to a selection of frames.  </p>
+from the DataStream queue and writes the data to a selection of frames.  (mostly complete) </p>
 
 <p><i>Frame</i>: a container encapsulating a specified timedelta of information. Data injected into a frame by the DataManager is
 trimmed down to data exclusive to the time between now() minus the frame length. Frames serve as the middleman between
-the DataManager and Auditor modules.</p> 
+the DataManager and Auditor modules. (mostly complete, has a bug) </p> 
 
 <p><i>Auditor</i>: abstract class responsible for watching for updates in the frames and and running calculations and other processes 
 on those frames. Auditors are the tools that Strategies (see below) use to decide on buying and selling. Classes that wish to process
 data in a frame must inherit from this class and override the process() method. The parent class runs the process() method upon the reception
 of new data in the frame attached to it. An example of an auditor would be a statistics class 
-that calculates new statistics on the data within a frame whenever new new data arrives. </p> 
+that calculates new statistics on the data within a frame whenever new new data arrives. (complete) </p> 
 
 <p><i>Strategy</i>: abstract class in which all buying and selling logic takes place. A new strategy must inherit from this class and 
 override the setup() and strategy() function. A strategy uses the auditor tools to monitor product trends. It also incorporate 
 transaction status information (obtained from the broker) as well as account information in it's trading logic. When it is ready to 
-place an order, a strategy asks the broker (below) to place and track that order in the exchange.
+place an order, a strategy asks the broker (below) to place and track that order in the exchange. (incomplete)
 
 <p><i>Broker</i>: the broker is responsible for interfacing with a user's private account. It sends transaction requests to the 
 exchange, monitors the status of those transations in an order book, and sends order status updates to the strategy objects. It
 must take care to stay synched with the exchange and minimize rounding errors that could disrupt trading logic.
-
-</p>
+ (incomplete) </p>
