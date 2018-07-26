@@ -89,7 +89,7 @@ class Broker:
 		
 if __name__ == '__main__':
 
-	with open('account.json') as f:
+	with open('accounts.json') as f:
 		accs = json.loads(f.read())
 		
 	

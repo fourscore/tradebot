@@ -64,3 +64,20 @@ place an order, a strategy asks the broker (below) to place and track that order
 exchange, monitors the status of those transations in an order book, and sends order status updates to the strategy objects. It
 must take care to stay synched with the exchange and minimize rounding errors that could disrupt trading logic.
  (incomplete) </p>
+
+<b>Finishing the Core</b>
+<p>Here's the things we need to finish. We can divide them up however we want:</p>
+<ul>
+	<li>Create and manage an order book in the broker and buy/sell functions</li>
+	<li>Finish the Strategy parent class - that is, create two threads, one that listens to audiotrs, one that interacts with the broker.
+		There needs to be a way for that ingformation to come together so that a user can make a trade strategy with it</li>
+	<li>Finish the simulator - just a way to pump in fake or past data into the data manager as whatever rate is specified. Also,
+		the broker wou;ld need to be able to operate on fake accounts. In other words, all of the GDAX items need to be simulated</li>
+	<li>Front end - a webserver and dashboard that the user can use to checkup on the status of the bot and their implemented strategies.
+		If we have a log in, we could implement inputs that could influence the bots trading stretegies</li>
+</ul>
+
+<p> I want it to be really easy to implement a strategy and I don't want the user to have tointeract with much of this framework we are building.
+The only thing a user has to know/steps to take are to inherit the Strategy class and override setup() and strategy() - in which, they can
+create and use Auditors. Once a strategy is done, the user should just tell the bot to use a certain one (pass in the object maybe?) and
+that be the end of it. Of course, if they want to get down and dirty and need more Auditor tools, 
