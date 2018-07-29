@@ -2,7 +2,7 @@
 #
 # Abstract:
 #
-# The Strategy class is one of two classes in this entire program that the front-end user will interact with -  
+# The Strategy class is one of two classes in this entire program that the front-end user will interact with -
 # here, a trading strategy is defined
 #
 # Each strategy must inherit from this class and override the setup() and strategy() functions
@@ -10,12 +10,13 @@
 # setup() - the user must define all of their Auditor - type objects here and register them bytearray
 #			calling the registerAuditor() function on them
 #
-# strateg() - within this function the conditions for trade must be defined
-			
-			
+# strategy() - within this function the conditions for trade must be defined
+
+
 from abc import ABCMeta, abstractmethod
 import auditor
 import threading
+
 
 
 #import broker
@@ -28,44 +29,63 @@ class Strategy(threading.Thread):
 		super().__init__()
 		#these vaules must be created in set up
 		self.auditors = []
-		self._broker = None
-		
+		self.broker = None
+
+		self._stop_listeners = threading.Event()
 		self.stop_request = threading.Event()
-		
+		self.update_status = threading.Event()
+
 		self.setup()
-		
+
 	def run(self):
+		# Three threads: one listening for updates from the broker, the other listening for updates from the auditors, and main
+		# for making decisions one the data coming in from the other threads
+		auditorListener = threading.Thread(target=self.listenAuditors)
+		brokerListener = threading.Thread(target=self.listenBroker)
+
+		auditorListener.start()
+		brokerListener.start()
+
 		try:
 			while not self.stop_request.isSet():
-				for auditor in self.auditors:
-					auditor.waitOnUpdate()
+				#run strategy when either auditors or broker makes an update
+				self.update_status.wait()
+				self.update_status.clear()
 				self.strategy()
 		except:
+			self._stop_listeners.set()
 			return
-			
-			
+
+	def listenAuditors(self):
+		while not self._stop_listeners.isSet():
+			for auditor in self.auditors:
+				auditor.waitOnUpdate()
+			self.update_status.set()
+
+	def listenBroker(self):
+		while not self._stop_listeners.isSet():
+			#self.broker.waitOnUpdate()
+			#self.update_status.set()
+			return
+
 	def close(self, timeout=None):
 		self.stop_request.set()
-		
-		for auditor in self.auditors:	
+
+		for auditor in self.auditors:
 			auditor.close()
-			
+
 		super().join(timeout)
-		
+
 	def registerAuditor(self, auditor):
 		self.auditors.append(auditor)
-		
+
 	def getAuditors(self):
 		return self.auditors
-		
-	@abstractmethod	
+
+	@abstractmethod
 	def setup(self): #create auditors and set conditions for buys and sells
 		pass
-		
-	@abstractmethod	
-	def strategy(self): #create auditors and set conditions for buys and sells
+
+	@abstractmethod
+	def strategy(self):
 		pass
-		
-	
-	
-	
