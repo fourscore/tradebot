@@ -33,16 +33,21 @@ import threading
 import queue
 from queue import Queue
 from datetime import datetime, timedelta, timezone
+from datastream import getHistoricalData
 import time
 
 #wraps a set containing data points for a time frame
 	#each point is in format: {'price':<price>, 'time':<time>, 'percentage': <percent of time interval>}
 class Frame:
-	def __init__(self, time_length):
+	def __init__(self, time_length, product):
 		self._time_length = timedelta(seconds = time_length)
 		self._data_points = []
 		self.sync_complete = threading.Event()
 		self.lock = threading.Lock()
+
+		self._inject(getHistoricalData(time_length, product))
+
+
 
 	def addPoint(self, data_point):
 		self.lock.acquire()
@@ -86,6 +91,11 @@ class Frame:
 		self.lock.release()
 		self.sync_complete.set()
 
+	#fill frame with past data
+	def _inject(self, data):
+		for field in data:
+			self.addPoint(field)
+
 
 	#----------------------------------Functions for external use -----------------------------------------#
 	#	Functions for use outside of this module
@@ -95,11 +105,6 @@ class Frame:
 		self.sync_complete.wait()
 		self.sync_complete.clear()
 		return self._data_points
-
-	#fill frame with past data
-	def inject(self, data):
-		for field in data:
-			self.addPoint(field)
 
 	def __str__(self):
 		return str(self._data_points)
