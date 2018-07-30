@@ -35,17 +35,23 @@
   </div>
 </body>
 </html>	
-
-
 <script>
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope,$http) {
 $scope.function2=function()
 {
-$http.get('/databot').then(function(res){			
-$scope.data=res.data
-console.log($scope.data);
-				});
+$http.get('/databot').then(function(res){	
+$scope.data="Not known"		
+console.log(res.data.length)
+if(res.data.length==8)
+{
+$scope.data="Online"
+}
+else
+{
+$scope.data="Offline"
+}
+});
 }
 	
 });

@@ -12,7 +12,8 @@ from datamanager import DataManager
 import time
 import statistics
 import threading
-
+import requests
+import sys
 #to deleter
 import teststrategy
 
@@ -73,10 +74,12 @@ class Bot(threading.Thread):
 if __name__ == "__main__":
 	strat = teststrategy.TestStrat()
 	bot = Bot(strat, 'BTC-USD')
-
 	try:
+		print("Online")
+		sys.stdout.flush()
 		bot.start()
-		time.sleep(60*20)
+		time.sleep(10)
 	except: pass
-
+	print("Offline")
+	sys.stdout.flush()
 	bot.close()
