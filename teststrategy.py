@@ -1,5 +1,6 @@
 import strategy
 import statistics
+import sys
 
 class TestStrat(strategy.Strategy):
 	def __init__(self):
@@ -16,7 +17,9 @@ class TestStrat(strategy.Strategy):
 	def strategy(self):
 		#print(self.stats_long.mean)
 		print(self.stats_short.mean)
+		sys.stdout.flush()
 		print(self.stats_short.log_mean)
+		sys.stdout.flush()
 
 		#if abs(self.stats_long.mean - self.stats_short.mean) < 10.00:
 		#	print('buy')

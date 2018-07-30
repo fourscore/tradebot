@@ -73,6 +73,7 @@ class Bot(threading.Thread):
 if __name__ == "__main__":
 	strat = teststrategy.TestStrat()
 	bot = Bot(strat, 'BTC-USD')
+
 	try:
 		bot.start()
 		time.sleep(60*20)
