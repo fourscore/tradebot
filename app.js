@@ -23,6 +23,7 @@ app.get('/databot',function(req,res){
 	
 	pythonProcess.stdout.on('data', (data) => {
 	datafrombot=data.toString()
+	console.log(data.toString())
 });
 console.log(datafrombot)
 res.send(datafrombot);
