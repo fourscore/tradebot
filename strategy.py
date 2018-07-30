@@ -40,11 +40,11 @@ class Strategy(threading.Thread):
 	def run(self):
 		# Three threads: one listening for updates from the broker, the other listening for updates from the auditors, and main
 		# for making decisions one the data coming in from the other threads
-		auditorListener = threading.Thread(target=self.listenAuditors)
-		brokerListener = threading.Thread(target=self.listenBroker)
+		self.auditorListener = threading.Thread(target=self.listenAuditors)
+		self.brokerListener = threading.Thread(target=self.listenBroker)
 
-		auditorListener.start()
-		brokerListener.start()
+		self.auditorListener.start()
+		self.brokerListener.start()
 
 		try:
 			while not self.stop_request.isSet():
@@ -53,7 +53,7 @@ class Strategy(threading.Thread):
 				self.update_status.clear()
 				self.strategy()
 		except:
-			self._stop_listeners.set()
+			self.close()
 			return
 
 	def listenAuditors(self):
@@ -70,6 +70,9 @@ class Strategy(threading.Thread):
 
 	def close(self, timeout=None):
 		self.stop_request.set()
+		self._stop_listeners.set()
+		self.auditorListener.join()
+		self.brokerListener.join()
 
 		for auditor in self.auditors:
 			auditor.close()
