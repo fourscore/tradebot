@@ -45,6 +45,7 @@ class Frame:
 		self.sync_complete = threading.Event()
 		self.lock = threading.Lock()
 
+		print("Collecting historical data...")
 		self._inject(getHistoricalData(time_length, product))
 
 
