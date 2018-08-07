@@ -26,7 +26,70 @@ app.get('/databot',function(req,res){
 console.log(datafrombot)
 res.send(datafrombot);
 });
+//getting all data from mongodb users
+app.get('/datafrommongo',function(req,res){
 
+var MongoClient = require('mongodb').MongoClient;
+	
+MongoClient.connect("mongodb://localhost:27017/profitdb", function (err, db) {
+    
+    db.collection('exch_data', function (err, collection) {
+        
+         collection.find().toArray(function(err, items) {
+            if(err) throw err;    
+			res.send(items);           
+        });
+        
+    });
+                
+});
+	
+});
+//getting all data from for buys and sells
+app.get('/datafrommongobuysandsells',function(req,res){
+
+var MongoClient = require('mongodb').MongoClient;
+	
+MongoClient.connect("mongodb://localhost:27017/profitdb", function (err, db) {
+    
+    db.collection('tradehist', function (err, collection) {
+        
+         collection.find().toArray(function(err, items) {
+            if(err) throw err;    
+			res.send(items);           
+        });
+        
+    });
+                
+});
+	
+});
+
+
+//delete all data from mongodb users
+app.get('/deletedata',function(req,res){
+
+var MongoClient = require('mongodb').MongoClient;
+	
+	var MongoClient = require('mongodb').MongoClient;
+	
+MongoClient.connect("mongodb://localhost:27017/profitdb", function (err, db) {
+    
+    db.collection('exch_data', function (err, collection) {
+        
+        collection.deleteMany(function(err, result) {
+        
+            if(err) throw err;    
+        
+            console.log('Document Removed Successfully');
+			res.send("Document deleted");  
+        });
+        
+    });
+                
+});
+	
+});
 app.listen(8080);
 
 console.log("Running at Port 8080");

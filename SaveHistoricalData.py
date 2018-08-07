@@ -6,7 +6,7 @@ from pymongo import MongoClient
 client = MongoClient()
 db = client.profitdb
 
-data = datastream.getHistoricalData(2*24*60*60,'ETH-USD')
+data = datastream.getHistoricalData(2*24*60*60,'BTC-USD')
 
 #format data like live ticker data, except stores time as seconds since epoch
 
