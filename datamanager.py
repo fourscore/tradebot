@@ -15,7 +15,8 @@
 #		* Each message must contain the following information:
 #			message = {
 #				'time': <match timed in iso string format>,
-#				'price': <float representation of closing price>
+#				'price': <decimal class representation of closing price>,
+#				'last_size': <decimal class object of product size>
 #			};
 #
 #
@@ -97,10 +98,8 @@ class Frame:
 		for field in data:
 			self.addPoint(field)
 
-
 	#----------------------------------Functions for external use -----------------------------------------#
 	#	Functions for use outside of this module
-
 
 	def get(self):
 		self.sync_complete.wait()
@@ -109,6 +108,44 @@ class Frame:
 
 	def __str__(self):
 		return str(self._data_points)
+
+#Candle - updates itself with data passed in for interval of time specified by time_length.
+#	stores information about that time interval, such as open price, high,
+#	close price, and volume during bucket
+#
+#	candle class will set close_flag to true when it's closing time is reached
+#	and will discontinue updating even if new data is passed in
+#
+#	External programs are responsible for watching if a candle has closed, getting
+#	and storing the data, and re-opening the candle for a new interval if the
+#	candle should be re-used
+class Candle:
+	def __init__(self, length, open_time, prev_t):
+		self.length = timedelta(seconds = length)
+		self.time = open_time
+
+		price = open_data_point['price']
+		self.low =	 price
+		self.high =  price
+		self.open =  price
+		self.close = None
+		self.volume = 0
+
+		self.is_closed = False
+
+	def sync(self, present_time, last_data_point):
+		last_time = datetime.strptime(last_data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+		price = last_data_point['price']
+		if present_time <= (self.time + self.length):
+			if self.low > price: self.low = price
+			if self.high < price: self.high = price
+			if last_data_point['time'] >= self.time: self.volume += last_data_point['last_size']
+		else:
+			self.is_closed = True
+			if not self.close:
+				self.close = price
+				self.volume += data_point['last_size']
+
 
 
 
