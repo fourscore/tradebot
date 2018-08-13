@@ -4,7 +4,7 @@ from pymongo import MongoClient
 #script to save a bunch of GDAX data base
 
 client = MongoClient()
-db = client.profitdb
+db = client.prof
 
 data = datastream.getHistoricalData(2*24*60*60,'BTC-USD')
 
@@ -12,5 +12,3 @@ data = datastream.getHistoricalData(2*24*60*60,'BTC-USD')
 
 response = db.exch_data.insert_many(data)
 print('Posts: {0}'.format(response.inserted_ids))
-	
-

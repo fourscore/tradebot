@@ -50,7 +50,7 @@ class OrderBook:
 		self.open_orders = {}
 		self.last_order = None
 
-		client = MongoClient('localhost', 27017)
+		client = MongoClient()
 		self.db = client.profitdb
 
 
@@ -69,7 +69,6 @@ class OrderBook:
 					order_id = order_msg['maker_order_id']
 					self.open_orders[order_id].append(order_msg)
 
-				self.db.tradehist.insert(self.open_orders[order_id])
 			elif order_msg['type'] == 'received':
 				order_id = order_msg['order_id']
 				self.last_order = order_id
@@ -77,16 +76,19 @@ class OrderBook:
 				print(self.open_orders)
 			else:
 				order_id = order_msg['order_id']
-
 				if order_msg['type'] != 'done':
 					self.open_orders[order_id] = order_msg
 				else:
+					post = {order_id: self.open_orders[order_id]}
+
+					self.db.tradehist.insert(post)
+					print("Successfully saved order to database")
 					del self.open_orders[order_id]
 
 
-		except Exception as e:
-			#print("Disregarding message that does not contain an order id")
-			print(e)
+		except KeyError:
+			print("Disregarding message that does not contain an order id")
+
 
 		return
 

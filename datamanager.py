@@ -109,22 +109,24 @@ class Frame:
 	def __str__(self):
 		return str(self._data_points)
 
-#Candle - updates itself with data passed in for interval of time specified by time_length.
+#Candle - updates itself with data passed in for interval of time specified by length.
 #	stores information about that time interval, such as open price, high,
 #	close price, and volume during bucket
 #
-#	candle class will set close_flag to true when it's closing time is reached
+#	candle class will set is_closed flag to true when it's closing time is reached
 #	and will discontinue updating even if new data is passed in
 #
 #	External programs are responsible for watching if a candle has closed, getting
 #	and storing the data, and re-opening the candle for a new interval if the
 #	candle should be re-used
+#
+
 class Candle:
-	def __init__(self, length, open_time, prev_t):
+	def __init__(self, length, open_time, start_point):
 		self.length = timedelta(seconds = length)
 		self.time = open_time
 
-		price = open_data_point['price']
+		price = start_point['price']
 		self.low =	 price
 		self.high =  price
 		self.open =  price
@@ -133,18 +135,71 @@ class Candle:
 
 		self.is_closed = False
 
-	def sync(self, present_time, last_data_point):
-		last_time = datetime.strptime(last_data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+	#only update if time of data is within time interval specified by
+	#self.time and self.time + self.length
+	def sync(self, last_data_point):
+		data_time = datetime.strptime(last_data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
 		price = last_data_point['price']
-		if present_time <= (self.time + self.length):
+		if data_time <= (self.time + self.length):
 			if self.low > price: self.low = price
 			if self.high < price: self.high = price
-			if last_data_point['time'] >= self.time: self.volume += last_data_point['last_size']
+			if data_time >= self.time: self.volume += last_data_point['volume']
 		else:
 			self.is_closed = True
 			if not self.close:
 				self.close = price
-				self.volume += data_point['last_size']
+				self.volume += last_data_point['volume']
+
+	#inject data into a candle for time that has already passed
+	#if candle is closed, don't bother
+	def _inject(self, data):
+		for point in data:
+			self.sync(point)
+			if self.is_closed:
+				return
+
+
+	def __str__(self):
+		return str(self.time) + " " + str(self.low) + " " + str(self.high) + " " + str(self.open) + " " + str(self.close) + " " + str(self.volume)
+
+
+
+#CandleRecord - contains candles of specified granularity spanning a specified
+#	number of num_candles
+#
+#	for now, historical data will come straight from gdax. Later, it should come
+#	from the database
+
+class CandleRecord:
+	def __init__(self, granularity, num_candles, product):
+
+		if (granularity < 60) and (granularity % 60 == 0):
+			print('[CANDLE RECORD] Granularity must be greater than or equal to 60 ' +
+					'and in multiples of 60. Aborted')
+			return
+
+		self.granularity = granularity
+		self.num_candles = num_candles
+		self.product = product
+		self.record = []
+
+		#fill record with previous data
+		prev_data = getHistoricalData(num_candles * granularity, product)
+		start_time = datetime.strptime(prev_data[1]['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+
+		#try:
+		for iter in range(num_candles):
+			candle = Candle(granularity, start_time, prev_data[int(iter * (granularity / 60))])
+			candle._inject(prev_data)
+			self.record.append(candle)
+
+			#calc open time for next candle
+			start_time = start_time + timedelta(seconds=granularity)
+
+		#except Exception as e:
+		#	print("[CANDLE RECORD] Failed to fill record. Aborting with err ")
+		#	print(e)
+
 
 
 
@@ -204,3 +259,11 @@ class DataManager(threading.Thread):
 
 	def registerFrame(self, frame):
 		self._frame_record.append(frame)
+
+
+#for testing classes
+if __name__ == '__main__':
+	rec = CandleRecord(60, 10, 'BTC-USD')
+	print('Record: ')
+	for can in rec.record:
+		print(can)

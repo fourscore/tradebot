@@ -35,7 +35,7 @@ def getHistoricalData(secs, product): #can't be less than one
 			except:
 				print("Invalid data. Trying again")
 				continue
-				
+
 		time.sleep(.5)
 		res.append(public_client.get_product_historic_rates(product,  granularity = 60, start = start_time.isoformat(), end=datetime.utcnow().isoformat())[::-1])
 
@@ -45,7 +45,6 @@ def getHistoricalData(secs, product): #can't be less than one
 		#[ 1415398768, 0.32, 4.2, 0.35, 4.2, 12.3 ]
 
 		for set in res:
-			ret.append({'begin':'sent'})
 			for field in set:
 				if datetime.utcfromtimestamp(field[0]) >= (back_end - timedelta(seconds=60)):
 					ret.append({
