@@ -8,6 +8,7 @@ db = client.prof
 
 data = datastream.getHistoricalData(2*24*60*60,'BTC-USD')
 
+
 #format data like live ticker data, except stores time as seconds since epoch
 
 response = db.exch_data.insert_many(data)
