@@ -6,8 +6,8 @@
 #	Each bot can only trade on a single product - to trade on multiple, new bots must be created
 #	I will create a BotManager object to oversee the operation of many bots at the same time
 
-from datastream import DataStream
-#from DataStream import DataStream
+from tickersimulator import DataStream
+#from datastream import DataStream
 from datamanager import DataManager
 import time
 import statistics
@@ -20,7 +20,8 @@ import teststrategy
 
 class Bot(threading.Thread):
 
-	def __init__(self, strategy, product): #set up infrastructure
+	#def __init__(self, strategy, product): #set up infrastructure
+	def __init__(self, product): #TEMPORARY
 		super().__init__()
 
 		self.stop_request = threading.Event()
@@ -38,16 +39,18 @@ class Bot(threading.Thread):
 
 		#create data stream and data manager
 		self.stream = DataStream([product])
-
-
-		self.data_manager = DataManager(self.stream.getStream(), True)
+		print('[BOT] Completed creation of data stream')
+		self.data_manager = DataManager(self.stream.getStream(), False)
+		print('[BOT] Completed creation of data manager')
 
 		#strategy
-		self.strategy = strategy
+		#self.strategy = strategy
+		self.strategy = teststrategy.TestStrat(self.data_manager) #TEMPORARY
+		print('[BOT] Successfully initiated strategy')
 
 		#register frames that auditors in strategy uses in data manager so they can be updated live
-		for auditor in self.strategy.getAuditors():
-			self.data_manager.registerFrame(auditor.getFrame())
+		#for auditor in self.strategy.getAuditors():
+		#	self.data_manager.registerFrame(auditor.getFrame())
 
 		#put in historical data
 
@@ -57,7 +60,6 @@ class Bot(threading.Thread):
 			self.stream.start()
 			self.data_manager.start()
 			self.strategy.start()
-
 			self.stop_request.wait()
 		except:
 			return
@@ -72,8 +74,10 @@ class Bot(threading.Thread):
 		super().join()
 
 if __name__ == "__main__":
-	strat = teststrategy.TestStrat()
-	bot = Bot(strat, 'BTC-USD')
+	#strat = teststrategy.TestStrat(self.data_manager)
+	bot = Bot('BTC-USD')
+	bot.start()
+	'''
 	try:
 		print("Online")
 		sys.stdout.flush()
@@ -82,4 +86,7 @@ if __name__ == "__main__":
 	except: pass
 	print("Offline")
 	sys.stdout.flush()
+	'''
+
+	time.sleep(2*60)
 	bot.close()

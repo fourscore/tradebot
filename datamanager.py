@@ -29,6 +29,10 @@
 #		when: Every now and then
 #		consequence: that data point has a 'percentage' value of 1.0 , causing percentages to add up to 2
 #					instead of 1. Throws off statistical calculations
+#
+#
+# TODO: Standardize input format for DataManager
+#		switch all even emitting over to datamanager
 
 import threading
 import queue
@@ -134,6 +138,8 @@ class Candle:
 		self.close = None
 		self.volume = Decimal(0)
 
+		self.current_price = price
+
 		self.is_closed = False
 
 	#only update if time of data is within time interval specified by
@@ -141,24 +147,23 @@ class Candle:
 	def sync(self, last_data_point):
 		data_time = datetime.strptime(last_data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
 		price = Decimal(last_data_point['price'])
+
+		self.current_price = price
+
 		if data_time < (self.time + self.length) and data_time >= self.time:
 			if self.low > price:
 				self.low = price
 			if self.high < price:
 				self.high = price
-			try:
-				if data_time >= self.time: self.volume += Decimal(last_data_point['volume'])
-			except KeyError:
-				if data_time >= self.time: self.volume += Decimal(last_data_point['last_size'])
+
+			if data_time >= self.time: self.volume += Decimal(last_data_point['last_size'])
 
 		elif data_time >= (self.time + self.length):
 			self.is_closed = True
 			if not self.close:
 				self.close = price
-				try:
-					self.volume += Decimal(last_data_point['volume'])
-				except KeyError:
-					self.volume += Decimal(last_data_point['last_size'])
+				self.volume += Decimal(last_data_point['last_size'])
+
 
 	#inject data into a candle for time that has already passed
 	#if candle is closed, don't bother
@@ -184,19 +189,20 @@ class CandleRecord:
 	def __init__(self, granularity, num_candles, product):
 
 		if (granularity < 60) or (granularity % 60 != 0):
-			print('[CANDLE RECORD] Granularity must be greater than or equal to 60 ' +
-					'and in multiples of 60. Aborted')
-			return
+			raise '[CANDLE RECORD] Granularity must be greater than or equal to 60 and in multiples of 60. Aborted'
+
 
 		self.granularity = granularity
 		self.num_candles = num_candles
 		self.product = product
 		self.record = []
 
+		self.sync_complete = threading.Event()
+
 		#fill record with previous data
-		prev_data = getHistoricalData(num_candles * granularity, product)
-		start_time = datetime.strptime(prev_data[1]['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
 		try:
+			prev_data = getHistoricalData(num_candles * granularity, product)
+			start_time = datetime.strptime(prev_data[1]['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
 			for iter in range(num_candles):
 				candle = Candle(granularity, start_time, prev_data[iter * int(granularity / 60)])
 				candle._inject(prev_data)
@@ -206,7 +212,7 @@ class CandleRecord:
 				start_time = start_time + timedelta(seconds=granularity)
 
 		except Exception as e:
-			print("[CANDLE RECORD] Failed to fill record. Aborting with error ")
+			print("[CANDLE RECORD] Failed to fill record. Record will start in empty state and take time to fill ")
 			print(e)
 
 	def sync(self, point, present_time):
@@ -227,6 +233,11 @@ class CandleRecord:
 		except KeyError as e:
 			print("[CANDLE RECORD] Ignoring irrelevant messages")
 			print(e)
+
+	def get(self):
+		self.sync_complete.wait()
+		self.sync_complete.clear()
+		return self.record
 
 
 
@@ -271,17 +282,26 @@ class DataManager(threading.Thread):
 				for frame in self._frame_record: #sync all existing ledgers
 					frame.sync(time_now)
 
+
 				#simulated time
-				'''
-				elif not self._real_time:
-					try:
-						data_point = self._data_source.get(True, 0.05) #process one item in queue at a time
-						for uid, frame in self.self._frame_record.items():
-							frame.addPoint(data_point)
-							frame.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
-					except queue.Empty:
-						continue
-				'''
+
+			elif not self._real_time:
+				try:
+					data_point = self._data_source.get(True, 0.05) #process one item in queue at a time
+
+					#frame
+					for uid, frame in self._frame_record.items():
+						frame.addPoint(data_point)
+						frame.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
+
+					#candle record
+					for record in self._candle_record_record:
+						time_now = data_point['time']
+						record.sync(data_point, time_now)
+
+
+				except queue.Empty:
+					continue
 
 			time.sleep(1)
 
@@ -295,6 +315,7 @@ class DataManager(threading.Thread):
 
 	def newCandleRecord(self, granularity, num_candles, product):
 		rec = CandleRecord(granularity, num_candles, product)
+
 		self._candle_record_record.append(rec)
 		return rec
 
@@ -305,7 +326,7 @@ if __name__ == '__main__':
 	from datastream import DataStream
 	ds = DataStream(['BTC-USD'])
 	dm = DataManager(ds.getStream(), True)
-	rec = dm.newCandleRecord(60, 5, 'BTC-USD')
+	rec = dm.newCandleRecord(60, 500, 'BTC-USD')
 	for candle in rec.record:
 		print(candle)
 

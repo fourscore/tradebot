@@ -12,6 +12,8 @@ import gdax
 import time
 from queue import Queue
 from datetime import datetime, timedelta
+from decimal import Decimal
+import requests
 
 
 def getHistoricalData(secs, product): #can't be less than one
@@ -27,14 +29,20 @@ def getHistoricalData(secs, product): #can't be less than one
 
 		while secs/60 > 300:
 			end_time = start_time + timedelta(seconds = 300 * 60)
+
 			try:
 				res.append(public_client.get_product_historic_rates(product,  granularity = 60, start = start_time.isoformat(), end=end_time.isoformat())[::-1])
 				start_time = end_time
 				secs = secs - 60*300
 				time.sleep(.6)
+
+			except requests.exceptions.ConnectionError:
+				print("[HISTORICAL DATA] Cannot connect to GDAX. No data returned")
+				return []
 			except:
 				print("Invalid data. Trying again")
 				continue
+
 
 		time.sleep(.5)
 		res.append(public_client.get_product_historic_rates(product,  granularity = 60, start = start_time.isoformat(), end=datetime.utcnow().isoformat())[::-1])
@@ -49,8 +57,8 @@ def getHistoricalData(secs, product): #can't be less than one
 				if datetime.utcfromtimestamp(field[0]) >= (back_end - timedelta(seconds=60)):
 					ret.append({
 						'time': datetime.utcfromtimestamp(field[0]).isoformat() + '.00Z',
-						'price': field[4],
-						'volume':field[5]
+						'price': Decimal(field[4]),
+						'last_size': Decimal(field[5])
 					})
 
 		return ret
