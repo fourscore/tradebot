@@ -38,7 +38,7 @@ def getHistoricalData(secs, product): #can't be less than one
 
 			except requests.exceptions.ConnectionError:
 				print("[HISTORICAL DATA] Cannot connect to GDAX. No data returned")
-				return []
+				return ret
 			except:
 				print("Invalid data. Trying again")
 				continue

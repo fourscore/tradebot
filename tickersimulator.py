@@ -12,6 +12,7 @@ import threading, queue
 from pymongo import MongoClient
 from datetime import datetime
 import time
+from decimal import Decimal
 
 class DataStream(threading.Thread):
 	def __init__(self,product, real_time = True):
@@ -38,8 +39,8 @@ class DataStream(threading.Thread):
 			try:
 				point = {
 					'time': field['time'],
-					'price': field['price'],
-					'last_size': field['volume']
+					'price': Decimal(field['price']),
+					'last_size': Decimal(field['volume'])
 				}
 			except KeyError:
 				continue

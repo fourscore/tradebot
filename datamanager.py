@@ -216,13 +216,18 @@ class CandleRecord:
 			print(e)
 
 	def sync(self, point, present_time):
-		if self.record[-1].is_closed:
+		if len(self.record) == 0:
+			print("[CANDLE RECORD] First candle created")
+			self.record.append(Candle(self.granularity, present_time, point))
+
+		elif self.record[-1].is_closed:
 			print("Candle closed")
 			#add create new candle
 			self.record.append(Candle(self.granularity, present_time, point))
 
 			#pop of backmost candle (to preserve memory)
-			del self.record[0]
+			if len(self.record) > self.num_candles:
+				del self.record[0]
 
 			#dEbug
 			for candle in self.record:
@@ -290,13 +295,13 @@ class DataManager(threading.Thread):
 					data_point = self._data_source.get(True, 0.05) #process one item in queue at a time
 
 					#frame
-					for uid, frame in self._frame_record.items():
+					for uid, frame in self._frame_record:
 						frame.addPoint(data_point)
 						frame.sync(datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ"))
 
 					#candle record
 					for record in self._candle_record_record:
-						time_now = data_point['time']
+						time_now = datetime.strptime(data_point['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
 						record.sync(data_point, time_now)
 
 
