@@ -10,12 +10,13 @@
 
 import gdax
 import time
-from queue import Queue
 from datetime import datetime, timedelta
 from decimal import Decimal
 import requests
 
 
+
+#number values for historical data saved in string to preserve accuracy
 def getHistoricalData(secs, product): #can't be less than one
 		if(secs < 60):
 			raise ValueError("Seconds must be greater than 60")
@@ -57,8 +58,8 @@ def getHistoricalData(secs, product): #can't be less than one
 				if datetime.utcfromtimestamp(field[0]) >= (back_end - timedelta(seconds=60)):
 					ret.append({
 						'time': datetime.utcfromtimestamp(field[0]).isoformat() + '.00Z',
-						'price': Decimal(field[4]),
-						'last_size': Decimal(field[5])
+						'price': str(field[4]),
+						'last_size': str(field[5])
 					})
 
 		return ret
@@ -67,24 +68,18 @@ def getHistoricalData(secs, product): #can't be less than one
 
 
 class DataStream(gdax.WebsocketClient):
-	def __init__(self, products):
+	def __init__(self, products, data_queue):
 		super().__init__(self)
 		self.products = products
 		self.channels = ['ticker']
 		self.url = 'wss://ws-feed.pro.coinbase.com'
 
-		self._data_queue = Queue()
-
-	def getStream(self):
-		return self._data_queue
+		self._data_queue = data_queue
 
 	def on_open(self):
 		return
 
 	def on_message(self, msg):
-		#try:
-		#	msg['time'] = msg['time'][:-8]
-		#except: pass
 		self._data_queue.put(msg)
 
 	def on_close(self):

@@ -1,24 +1,27 @@
 import strategy
 import statistics
 import sys
+from datamanager import CandleRecord
 
 class TestStrat(strategy.Strategy):
-	def __init__(self):
-		super().__init__()
-
-
 	def setup(self):
-		#self.stats_long = statistics.Statistics(10*60)
-		#self.registerAuditor(self.stats_long)
+		self.candle_record = self.dm.newCandleRecord(60, 100, 'BTC-USD')
 
-		self.stats_short = statistics.Statistics(60*60, 'BTC-USD')
-		self.registerAuditor(self.stats_short)
+		self.stats = statistics.Statistics(self.candle_record)
+		self.registerAuditor(self.stats)
+
 
 	def strategy(self):
-		#print(self.stats_long.mean)
-		print(self.stats_short.mean)
-		#sys.stdout.flush()
-		print(self.stats_short.log_mean)
+		print("Mean: " + str(self.stats.mean))
+		try:
+			print("Volume for 5 minutes: " + str(self.stats.getVolume(5)))
+		except Exception as e:
+			print('[TEST STRAT] Record not of size yet')
+			print(e)
+
+		print("EMA 12: " + str(self.stats.getEMA(12)))
+		print("EMA 24: " + str(self.stats.getEMA(24)))
+
 		#sys.stdout.flush()
 
 		#if abs(self.stats_long.mean - self.stats_short.mean) < 10.00:

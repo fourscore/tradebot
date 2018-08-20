@@ -11,6 +11,8 @@
 #			calling the registerAuditor() function on them
 #
 # strategy() - within this function the conditions for trade must be defined
+#
+# __init__ params: dm - reference to a datamanager
 
 
 from abc import ABCMeta, abstractmethod
@@ -25,15 +27,19 @@ import threading
 class Strategy(threading.Thread):
 	__metaclass__ = ABCMeta
 
-	def __init__(self):
+	def __init__(self, dm):
 		super().__init__()
 		#these vaules must be created in set up
 		self.auditors = []
 		self.broker = None
 
+		self.dm = dm
+
 		self._stop_listeners = threading.Event()
 		self.stop_request = threading.Event()
 		self.update_status = threading.Event()
+
+
 
 		self.setup()
 
@@ -44,16 +50,21 @@ class Strategy(threading.Thread):
 		self.brokerListener = threading.Thread(target=self.listenBroker)
 
 		self.auditorListener.start()
+		print('[STRATEGY] Auditor listener launched')
 		self.brokerListener.start()
+		print('[STRATEGY] Broker listener launched')
 
 		try:
 			while not self.stop_request.isSet():
 				#run strategy when either auditors or broker makes an update
+				print('[STRATEGY] Waiting on update from auditors and broker')
 				self.update_status.wait()
 				self.update_status.clear()
+				print('[STRATEGY] Executing strategy')
 				self.strategy()
 		except:
 			self.close()
+			print("[STRATEGY] Exited")
 			return
 
 	def listenAuditors(self):

@@ -8,29 +8,48 @@
 
 import auditor
 import math
+from datamanager import Frame, CandleRecord
+from decimal import Decimal
 
 class Statistics(auditor.Auditor):
-	def _init_(self, time_length):
-		super()._init_(time_length)
+	def __init__(self, source):
+		#enforce use of candle records
+		if type(source) != CandleRecord:
+			raise Exception('[SATISTICS] Statistics auditor requires source of type CandleRecord')
 
-		self.mean = 0.0
-		self.log_mean = 0.0
+		super().__init__(source)
 
+		self.mean = Decimal(0.0)
+		self.ema = Decimal(0.0)
+
+	#things to be calculated on every receipt of data should be included in this function
 	def process(self):
-		self.log_mean = self.calcLogMean()
 		self.mean = self.calcMean()
 
 
 	def calcMean(self):
-		mean = 0.0
-		for point in self.data:
-			mean = mean +  (float(point['percentage']) * float(point['price']))
-		return mean
+		mean = Decimal(0.0)
+		for candle in self.data:
+			if not candle.close:
+				mean += candle.current_price
+			else:
+				mean += candle.close
+		return mean/len(self.data)
 
-	def calcLogMean(self):
-		mean = 0.0
+	#sizes: list of
+	def getEMA(self, size):
+		mult = Decimal(2/(size + 1))
+		ema = self.mean
+		for candle in self.data:
+			ema = Decimal((candle.current_price - ema) * mult + ema)
+		return ema
 
-		for point in self.data:
-			mean = mean +  (float(point['percentage']) * float(point['price']))
 
-		return 10*math.log(mean, 10)
+
+	#num_candles: how many candles to include in calculations
+	def getVolume(self, num_candles):
+		if num_candles > len(self.data): raise Exception("[STATISTICS] Error in calculating volume: requested candles excedes candle record size")
+
+		volume = Decimal(0.0)
+		for iter in range(-1,-1*num_candles,-1): volume += self.data[iter].volume
+		return volume

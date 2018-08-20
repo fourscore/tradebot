@@ -37,14 +37,14 @@ class Bot(threading.Thread):
 		# 6) create a broker
 		# 7) register the broker with the strategy
 
-		#create data stream and data manager
-		self.stream = DataStream([product])
-		print('[BOT] Completed creation of data stream')
-		self.data_manager = DataManager(self.stream.getStream(), False)
-		print('[BOT] Completed creation of data manager')
-
+		#create data stream and data manage
+		self.data_manager = DataManager(False)
+		print('[BOT] Data manager successfully instantiated')
+		self.stream = DataStream([product], self.data_manager.data_queue)
+		print('[BOT] Data stream successfully instantiated')
 		#strategy
 		#self.strategy = strategy
+
 		self.strategy = teststrategy.TestStrat(self.data_manager) #TEMPORARY
 		print('[BOT] Successfully initiated strategy')
 
@@ -58,8 +58,11 @@ class Bot(threading.Thread):
 	def run(self):
 		try:
 			self.stream.start()
+			print('[BOT] Data stream launched')
 			self.data_manager.start()
+			print('[BOT] Data manager launched')
 			self.strategy.start()
+			print('[BOT] Strategy launched')
 			self.stop_request.wait()
 		except:
 			return
@@ -87,6 +90,8 @@ if __name__ == "__main__":
 	print("Offline")
 	sys.stdout.flush()
 	'''
-
-	time.sleep(2*60)
+	try:
+		time.sleep(2*60)
+	except:
+		pass
 	bot.close()

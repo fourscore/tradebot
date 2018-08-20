@@ -189,7 +189,7 @@ class CandleRecord:
 	def __init__(self, granularity, num_candles, product):
 
 		if (granularity < 60) or (granularity % 60 != 0):
-			raise '[CANDLE RECORD] Granularity must be greater than or equal to 60 and in multiples of 60. Aborted'
+			raise Exception('[CANDLE RECORD] Granularity must be greater than or equal to 60 and in multiples of 60. Aborted')
 
 
 		self.granularity = granularity
@@ -199,45 +199,33 @@ class CandleRecord:
 
 		self.sync_complete = threading.Event()
 
-		#fill record with previous data
-		try:
-			prev_data = getHistoricalData(num_candles * granularity, product)
-			start_time = datetime.strptime(prev_data[1]['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
-			for iter in range(num_candles):
-				candle = Candle(granularity, start_time, prev_data[iter * int(granularity / 60)])
-				candle._inject(prev_data)
-				self.record.append(candle)
-
-				#calc open time for next candle
-				start_time = start_time + timedelta(seconds=granularity)
-
-		except Exception as e:
-			print("[CANDLE RECORD] Failed to fill record. Record will start in empty state and take time to fill ")
-			print(e)
 
 	def sync(self, point, present_time):
+		#dEbug
+		#for candle in self.record: print(candle)
+
+
+
 		if len(self.record) == 0:
 			print("[CANDLE RECORD] First candle created")
 			self.record.append(Candle(self.granularity, present_time, point))
 
 		elif self.record[-1].is_closed:
-			print("Candle closed")
+			print("[CANDLE RECORD] Latest candle of granularity " + str(self.granularity) + " closed")
 			#add create new candle
 			self.record.append(Candle(self.granularity, present_time, point))
 
 			#pop of backmost candle (to preserve memory)
-			if len(self.record) > self.num_candles:
+			if len(self.record) >= self.num_candles:
 				del self.record[0]
-
-			#dEbug
-			for candle in self.record:
-				print(candle)
 
 		try:
 			self.record[-1].sync(point)
 		except KeyError as e:
 			print("[CANDLE RECORD] Ignoring irrelevant messages")
 			print(e)
+
+		self.sync_complete.set()
 
 	def get(self):
 		self.sync_complete.wait()
@@ -250,9 +238,9 @@ class CandleRecord:
 
 class DataManager(threading.Thread):
 
-	def __init__(self, data_source, real_time):
+	def __init__(self, real_time=True):
 		super().__init__()
-		self._data_source = data_source
+		self.data_queue = Queue()
 		self._frame_record = []
 		self._real_time = real_time
 		self._candle_record_record = []
@@ -271,8 +259,7 @@ class DataManager(threading.Thread):
 				while True: #process all items in queue
 					time_now = datetime.utcnow()
 					try:
-						data_point = self._data_source.get(False) #blocking is false because we want calculation to happen every second regardless of when message comes in
-
+						data_point = self.data_queue.get(False) #don't block so that all data that came in can be processed
 						#frame
 						for frame in self._frame_record:
 							frame.addPoint(data_point)
@@ -287,12 +274,11 @@ class DataManager(threading.Thread):
 				for frame in self._frame_record: #sync all existing ledgers
 					frame.sync(time_now)
 
-
-				#simulated time
+				time.sleep(1)
 
 			elif not self._real_time:
 				try:
-					data_point = self._data_source.get(True, 0.05) #process one item in queue at a time
+					data_point = self.data_queue.get(True, 0.05) #process one item in queue at a time
 
 					#frame
 					for uid, frame in self._frame_record:
@@ -308,8 +294,6 @@ class DataManager(threading.Thread):
 				except queue.Empty:
 					continue
 
-			time.sleep(1)
-
 
 	def close(self, timeout=None):
 		self.stop_request.set()
@@ -319,7 +303,29 @@ class DataManager(threading.Thread):
 		self._frame_record.append(frame)
 
 	def newCandleRecord(self, granularity, num_candles, product):
+		#fill with historical dat
+
 		rec = CandleRecord(granularity, num_candles, product)
+
+		#fill record with previous data
+		if self._real_time:
+			try:
+				prev_data = getHistoricalData(num_candles * granularity, product)
+				start_time = datetime.strptime(prev_data[1]['time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+				for iter in range(num_candles):
+					candle = Candle(granularity, start_time, prev_data[iter * int(granularity / 60)])
+					candle._inject(prev_data)
+					rec.record.append(candle)
+
+					#calc open time for next candle
+					start_time = start_time + timedelta(seconds=granularity)
+
+			except Exception as e:
+				print("[CANDLE RECORD] Failed to fill record. Record will start in empty state and take time to fill ")
+				print(e)
+
+		else:
+			print("[CANDLE RECORD] Record not initiated for real time - will fill gradually ")
 
 		self._candle_record_record.append(rec)
 		return rec
