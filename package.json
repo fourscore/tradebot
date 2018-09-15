@@ -1,0 +1,34 @@
+{
+  "name": "tradebot",
+  "version": "1.0.0",
+  "description": "Trading bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pleimer/tradebot.git"
+  },
+  "keywords": [
+    "bot",
+    "trade",
+    "captial"
+  ],
+  "author": "Paul Leimer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pleimer/tradebot/issues"
+  },
+  "homepage": "https://github.com/pleimer/tradebot#readme",
+  "dependencies": {
+    "angular": "^1.7.4",
+    "angular-route": "^1.7.4",
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.1.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongodb": "^3.1.6",
+    "mongojs": "^2.6.0"
+  }
+}

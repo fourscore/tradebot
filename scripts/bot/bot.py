@@ -40,7 +40,7 @@ class Bot(threading.Thread):
 		#create data stream and data manage
 		self.data_manager = DataManager(False)
 		print('[BOT] Data manager successfully instantiated')
-		self.stream = DataStream([product], self.data_manager.data_queue)
+		self.stream = DataStream([product], self.data_manager.data_queue, False)
 		print('[BOT] Data stream successfully instantiated')
 		#strategy
 		#self.strategy = strategy
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 	#strat = teststrategy.TestStrat(self.data_manager)
 	bot = Bot('BTC-USD')
 	bot.start()
-	'''
+	
 	try:
 		print("Online")
 		sys.stdout.flush()
@@ -89,9 +89,11 @@ if __name__ == "__main__":
 	except: pass
 	print("Offline")
 	sys.stdout.flush()
-	'''
+	
 	try:
 		time.sleep(2*60)
 	except:
 		pass
+
+	#bot.strategy.graph()
 	bot.close()

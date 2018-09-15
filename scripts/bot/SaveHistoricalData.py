@@ -7,7 +7,7 @@ client = MongoClient()
 db = client.profitdb
 
 try:
-    data = datastream.getHistoricalData(3*24*60*60,'BTC-USD')
+    data = datastream.getHistoricalData(24*60*60,'BTC-USD')
 
     #format data like live ticker data, except stores time as seconds since epoch
 

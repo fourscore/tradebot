@@ -1,0 +1,5 @@
+dependencies (install into this folder):
+npm install angular express body-parser ejs mongojs
+npm install angular-routes --save
+npm install bootstrap mongodb --save
+npm install -g nodemon

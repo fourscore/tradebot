@@ -21,9 +21,9 @@ class DataStream(threading.Thread):
 		self.stop_request = threading.Event()
 		self._data_queue = data_queue
 
-		self._sleep_time = 0
+		self._sleep_time = 0.01
 		if real_time:
-			self._sleep_time = 1
+			self._sleep_time = .2
 
 	def run(self):
 		client = MongoClient()
@@ -46,7 +46,7 @@ class DataStream(threading.Thread):
 
 			#field['time'] = datetime.utcnow().isoformat() + 'Z' #have to trick data manager into thinking this data is current
 			self._data_queue.put(point)
-			time.sleep(.3)
+			time.sleep(self._sleep_time)
 
 
 	def close(self, timeout=None):
